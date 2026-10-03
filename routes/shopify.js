@@ -85,7 +85,7 @@ router.get('/callback', async (req, res) => {
     res.redirect(`${APP_URL}/install.html?domain=${shop}`);
 
   } catch (err) {
-    console.error('[Shopify callback]', err.message);
+    console.error('[Shopify callback] ERRORE COMPLETO:', JSON.stringify(err), err.message, err.stack);
     res.status(500).send(`Errore installazione: ${err.message}`);
   }
 });
