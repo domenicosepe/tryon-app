@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pagamento completato</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f3;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+.card{background:#fff;border-radius:20px;padding:48px 40px;text-align:center;max-width:440px;width:100%;border:2px solid #d5f5e3}
+.icon{font-size:64px;margin-bottom:16px}
+h1{font-size:24px;font-weight:700;margin-bottom:8px;color:#1a1a1a}
+p{font-size:15px;color:#666;line-height:1.6;margin-bottom:24px}
+.steps{text-align:left;background:#f5f5f3;border-radius:12px;padding:16px 20px;margin-bottom:24px}
+.step{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:#555;margin-bottom:10px}
+.step:last-child{margin-bottom:0}
+.step-num{background:#1a1a1a;color:#fff;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px}
+a.btn{display:block;background:#1a1a1a;color:#fff;padding:14px;border-radius:10px;text-decoration:none;font-size:15px;font-weight:600}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="icon">🎉</div>
+  <h1>Pagamento completato!</h1>
+  <p>Grazie per esserti abbonato a TryOn App. Il tuo accesso sarà attivato automaticamente nelle prossime ore.</p>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><span>Il pagamento è stato ricevuto</span></div>
+    <div class="step"><div class="step-num">2</div><span>Il tuo abbonamento verrà attivato automaticamente</span></div>
+    <div class="step"><div class="step-num">3</div><span>Riceverai istruzioni di installazione via email</span></div>
+  </div>
+  <a class="btn" id="back-link" href="install.html">Controlla lo stato →</a>
+</div>
+<script>
+const domain = new URLSearchParams(window.location.search).get('domain');
+if (domain) document.getElementById('back-link').href = `install.html?domain=${domain}`;
+</script>
+</body>
+</html>

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TryOn App — Abbonati</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f3;color:#1a1a1a;min-height:100vh;padding:32px 16px}
+.wrap{max-width:860px;margin:0 auto}
+.header{text-align:center;margin-bottom:12px}
+.header h1{font-size:30px;font-weight:700;margin-bottom:8px}
+.header p{font-size:15px;color:#888}
+.subtitle{text-align:center;font-size:13px;color:#aaa;margin-bottom:36px}
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:32px}
+.plan{background:#fff;border-radius:18px;padding:26px;border:2px solid #eee;cursor:pointer;transition:all .2s;position:relative;display:flex;flex-direction:column}
+.plan:hover{border-color:#ccc;transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.07)}
+.plan.selected{border-color:#1a1a1a;box-shadow:0 8px 24px rgba(0,0,0,.12)}
+.plan.rec{border-color:#C9A84C;background:#fffdf5}
+.plan.rec.selected{border-color:#1a1a1a}
+.rec-badge{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:#C9A84C;color:#fff;font-size:11px;font-weight:700;padding:4px 16px;border-radius:99px;white-space:nowrap;letter-spacing:.04em}
+.best-value-badge{display:inline-block;background:#fff3cd;color:#856404;font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px;margin-bottom:12px}
+.plan-name{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#aaa;margin-bottom:10px}
+.plan-price{font-size:38px;font-weight:800;line-height:1;margin-bottom:3px}
+.plan-price span{font-size:15px;font-weight:400;color:#888}
+.plan-calls{font-size:13px;color:#888;margin-bottom:8px}
+.cost-per-gen{display:inline-flex;align-items:center;gap:6px;border-radius:8px;padding:7px 12px;margin-bottom:16px;font-size:13px;font-weight:600}
+.cost-per-gen.cheap{background:#d5f5e3;color:#1e8449}
+.cost-per-gen.mid{background:#fdebd0;color:#d35400}
+.cost-per-gen.expensive{background:#fadbd8;color:#c0392b}
+.plan-sep{height:1px;background:#f0f0ee;margin:0 0 14px}
+.plan-feats{list-style:none;display:flex;flex-direction:column;gap:9px;margin-bottom:18px;flex:1}
+.plan-feats li{font-size:13px;display:flex;align-items:flex-start;gap:9px;line-height:1.4}
+.feat-icon{flex-shrink:0;margin-top:1px;font-size:14px}
+.plan-btn{width:100%;padding:12px;border-radius:9px;border:2px solid #eee;background:#fff;font-size:14px;font-weight:600;cursor:pointer;transition:all .15s;font-family:inherit;color:#888;margin-top:auto}
+.plan.selected .plan-btn{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
+.plan.rec .plan-btn{border-color:#C9A84C;color:#C9A84C}
+.plan.rec.selected .plan-btn{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
+.cost-compare{background:#fff;border-radius:14px;padding:18px 20px;margin-bottom:28px;border:1px solid #eee}
+.cost-compare h3{font-size:13px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px}
+.cost-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f5f5f3;font-size:13px;gap:8px}
+.cost-row:last-child{border-bottom:none}
+.cost-row .plan-lbl{font-weight:500;min-width:70px}
+.cost-row .cpg{font-weight:700}
+.cost-row .savings{font-size:11px;color:#27ae60;font-weight:600;text-align:right}
+.form-card{background:#fff;border-radius:16px;padding:24px;margin-bottom:20px}
+.form-card h2{font-size:16px;font-weight:600;margin-bottom:16px}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:13px;font-weight:500;margin-bottom:5px;color:#555}
+.field input{width:100%;padding:11px 14px;border:1.5px solid #ddd;border-radius:8px;font-size:14px;outline:none;transition:border .15s;font-family:inherit}
+.field input:focus{border-color:#1a1a1a}
+.revolut-info{background:#f0f8ff;border:1px solid #b3d9f0;border-radius:10px;padding:14px 16px;margin-bottom:16px;font-size:13px;line-height:1.6;display:none}
+.revolut-info strong{display:block;margin-bottom:4px}
+.btn-main{display:block;width:100%;padding:15px;background:#1a1a1a;color:#fff;border:none;border-radius:10px;font-size:16px;font-weight:600;cursor:pointer;transition:background .15s;font-family:inherit}
+.btn-main:hover:not(:disabled){background:#333}
+.btn-main:disabled{opacity:.35;cursor:not-allowed}
+.status-card{background:#fff;border-radius:16px;padding:32px;text-align:center;display:none;border:2px solid transparent}
+.status-card.pending{border-color:#e67e22}
+.status-card.active{border-color:#27ae60}
+.status-card.blocked{border-color:#c0392b}
+.status-icon{font-size:56px;margin-bottom:12px}
+.status-title{font-size:22px;font-weight:700;margin-bottom:8px}
+.status-desc{font-size:14px;color:#666;line-height:1.6;margin-bottom:20px}
+.credits-bar{background:#eee;border-radius:99px;height:10px;overflow:hidden;margin:12px 0 6px}
+.credits-fill{height:100%;border-radius:99px;background:#27ae60;transition:width .5s}
+.credits-label{font-size:12px;color:#888}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="header">
+    <h1>🧥 TryOn App</h1>
+    <p>Virtual Try-On con AI per il tuo negozio Shopify</p>
+  </div>
+  <div class="subtitle">Più generazioni incluse = meno costi per ogni prova</div>
+
+  <div class="status-card" id="status-card">
+    <div class="status-icon" id="s-icon"></div>
+    <div class="status-title" id="s-title"></div>
+    <div class="status-desc" id="s-desc"></div>
+    <div id="credits-wrap" style="display:none">
+      <div class="credits-bar"><div class="credits-fill" id="credits-fill"></div></div>
+      <div class="credits-label" id="credits-label"></div>
+    </div>
+  </div>
+
+  <div id="main-wrap">
+    <div class="plans">
+
+      <!-- BASIC -->
+      <div class="plan" id="plan-basic" onclick="selectPlan('basic',this)">
+        <div class="plan-name">Basic</div>
+        <div class="plan-price">€30<span>/mese</span></div>
+        <div class="plan-calls">80 generazioni al mese</div>
+        <div class="cost-per-gen expensive">
+          <span>€0,38 per generazione</span>
+        </div>
+        <div class="plan-sep"></div>
+        <ul class="plan-feats">
+          <li><span class="feat-icon">✅</span>Virtual Try-On AI</li>
+          <li><span class="feat-icon">✅</span>80 prove al mese</li>
+          <li><span class="feat-icon">✅</span>Supporto email</li>
+          <li><span class="feat-icon">❌</span><span style="color:#ccc">Outfit Suggeriti</span></li>
+        </ul>
+        <button class="plan-btn">Scegli Basic</button>
+      </div>
+
+      <!-- PRO -->
+      <div class="plan rec" id="plan-pro" onclick="selectPlan('pro',this)">
+        <span class="rec-badge">⭐ Consigliato</span>
+        <div class="plan-name">Pro</div>
+        <div class="plan-price">€85<span>/mese</span></div>
+        <div class="plan-calls">250 generazioni al mese</div>
+        <div class="cost-per-gen cheap">
+          <span>€0,34 per generazione</span>
+          <span style="font-size:10px;background:#27ae60;color:#fff;padding:2px 6px;border-radius:99px">-11%</span>
+        </div>
+        <div class="plan-sep"></div>
+        <ul class="plan-feats">
+          <li><span class="feat-icon">✅</span>Virtual Try-On AI</li>
+          <li><span class="feat-icon">✅</span>250 prove al mese</li>
+          <li><span class="feat-icon">✅</span>Outfit Suggeriti</li>
+          <li><span class="feat-icon">✅</span>Supporto prioritario</li>
+        </ul>
+        <button class="plan-btn">Scegli Pro</button>
+      </div>
+
+      <!-- PREMIUM -->
+      <div class="plan" id="plan-premium" onclick="selectPlan('premium',this)">
+        <div class="best-value-badge">💎 Miglior rapporto qualità/prezzo</div>
+        <div class="plan-name">Premium</div>
+        <div class="plan-price">€275<span>/mese</span></div>
+        <div class="plan-calls">840 generazioni al mese</div>
+        <div class="cost-per-gen mid">
+          <span>€0,33 per generazione</span>
+          <span style="font-size:10px;background:#e67e22;color:#fff;padding:2px 6px;border-radius:99px">-13%</span>
+        </div>
+        <div class="plan-sep"></div>
+        <ul class="plan-feats">
+          <li><span class="feat-icon">✅</span>Virtual Try-On AI</li>
+          <li><span class="feat-icon">✅</span>840 prove al mese</li>
+          <li><span class="feat-icon">✅</span>Outfit Suggeriti</li>
+          <li><span class="feat-icon">✅</span>Accesso API diretto</li>
+          <li><span class="feat-icon">✅</span>Supporto dedicato</li>
+        </ul>
+        <button class="plan-btn">Scegli Premium</button>
+      </div>
+    </div>
+
+    <!-- Confronto costi -->
+    <div class="cost-compare">
+      <h3>📊 Confronto costo per generazione</h3>
+      <div class="cost-row">
+        <span class="plan-lbl">Basic</span>
+        <span>80 gen · €30/mese</span>
+        <span class="cpg" style="color:#c0392b">€0,38 / gen</span>
+        <span class="savings"></span>
+      </div>
+      <div class="cost-row" style="background:#fffdf5;border-radius:8px;padding:8px 10px;margin:4px -4px">
+        <span class="plan-lbl">⭐ Pro</span>
+        <span>250 gen · €85/mese</span>
+        <span class="cpg" style="color:#1e8449">€0,34 / gen</span>
+        <span class="savings">risparmi l'11%</span>
+      </div>
+      <div class="cost-row">
+        <span class="plan-lbl">💎 Premium</span>
+        <span>840 gen · €275/mese</span>
+        <span class="cpg" style="color:#e67e22">€0,33 / gen</span>
+        <span class="savings">risparmi il 13%</span>
+      </div>
+    </div>
+
+    <!-- Form -->
+    <div class="form-card">
+      <h2>Dati del tuo negozio</h2>
+      <div class="field">
+        <label>Dominio Shopify</label>
+        <input type="text" id="f-domain" placeholder="mio-negozio.myshopify.com" />
+      </div>
+      <div class="field">
+        <label>Nome negozio</label>
+        <input type="text" id="f-name" placeholder="Il mio negozio" />
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="f-email" placeholder="email@negozio.com" />
+      </div>
+      <div class="revolut-info" id="revolut-info">
+        <strong>💳 Pagamento via Revolut</strong>
+        Dopo aver inviato la richiesta, riceverai un link di pagamento Revolut all'email indicata.
+        Una volta ricevuto il pagamento, il tuo accesso sarà attivato entro poche ore.
+      </div>
+      <button class="btn-main" id="btn-register" onclick="register()" disabled>
+        Richiedi accesso →
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = '';
+let selectedPlan = null;
+
+function selectPlan(plan, el) {
+  selectedPlan = plan;
+  document.querySelectorAll('.plan').forEach(p => {
+    p.classList.remove('selected');
+    p.querySelector('.plan-btn').textContent =
+      p.id === 'plan-basic' ? 'Scegli Basic' :
+      p.id === 'plan-pro'   ? 'Scegli Pro'   : 'Scegli Premium';
+  });
+  el.classList.add('selected');
+  el.querySelector('.plan-btn').textContent = '✓ Selezionato';
+  document.getElementById('revolut-info').style.display = 'block';
+  checkForm();
+}
+
+function checkForm() {
+  const d = document.getElementById('f-domain').value.trim();
+  const e = document.getElementById('f-email').value.trim();
+  document.getElementById('btn-register').disabled = !(selectedPlan && d && e);
+}
+['f-domain','f-name','f-email'].forEach(id =>
+  document.getElementById(id).addEventListener('input', checkForm)
+);
+
+async function register() {
+  const domain = document.getElementById('f-domain').value.trim();
+  const name   = document.getElementById('f-name').value.trim();
+  const email  = document.getElementById('f-email').value.trim();
+  const btn    = document.getElementById('btn-register');
+  btn.disabled = true; btn.textContent = 'Invio in corso…';
+  try {
+    const res  = await fetch(`${API}/api/shop/register`, {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ shop_domain: domain, shop_name: name, email, plan: selectedPlan }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    document.getElementById('main-wrap').style.display = 'none';
+    const card = document.getElementById('status-card');
+    card.className = 'status-card pending';
+    card.style.display = 'block';
+    document.getElementById('s-icon').textContent  = '⏳';
+    document.getElementById('s-title').textContent = 'Richiesta inviata!';
+    document.getElementById('s-desc').innerHTML    =
+      `Riceverai un link di pagamento Revolut all'indirizzo <strong>${email}</strong>.<br>
+       Una volta ricevuto il pagamento, il tuo accesso sarà attivato entro poche ore.`;
+  } catch (err) {
+    alert('Errore: ' + err.message);
+    btn.disabled = false; btn.textContent = 'Richiedi accesso →';
+  }
+}
+
+async function checkStatus(domain) {
+  try {
+    const res = await fetch(`${API}/api/shop/status?domain=${domain}`);
+    if (!res.ok) return;
+    const d = await res.json();
+    const icons  = { active:'✅', pending:'⏳', blocked:'🚫', cancelled:'❌' };
+    const titles = { active:'Abbonamento attivo', pending:'In attesa', blocked:'Sospeso', cancelled:'Cancellato' };
+    const descs  = {
+      active:    `Piano <strong>${d.plan}</strong> attivo.`,
+      pending:   'In attesa di approvazione.',
+      blocked:   'Abbonamento sospeso. Contatta il supporto.',
+      cancelled: 'Abbonamento cancellato.',
+    };
+    document.getElementById('main-wrap').style.display = 'none';
+    const card = document.getElementById('status-card');
+    card.className = `status-card ${d.status}`;
+    card.style.display = 'block';
+    document.getElementById('s-icon').textContent  = icons[d.status]  || '❓';
+    document.getElementById('s-title').textContent = titles[d.status] || d.status;
+    document.getElementById('s-desc').innerHTML    = descs[d.status]  || '';
+    if (d.status === 'active') {
+      const pct = Math.round((d.calls_used / d.calls_limit) * 100);
+      document.getElementById('credits-wrap').style.display = 'block';
+      document.getElementById('credits-fill').style.width   = pct + '%';
+      document.getElementById('credits-fill').style.background = pct > 80 ? '#e74c3c' : '#27ae60';
+      document.getElementById('credits-label').textContent  = `${d.calls_used} / ${d.calls_limit} generazioni usate`;
+    }
+  } catch {}
+}
+
+const params = new URLSearchParams(window.location.search);
+const domain = params.get('domain');
+if (domain) { document.getElementById('f-domain').value = domain; checkStatus(domain); }
+
+setTimeout(() => {
+  if (!selectedPlan) selectPlan('pro', document.getElementById('plan-pro'));
+}, 800);
+</script>
+</body>
+</html>
