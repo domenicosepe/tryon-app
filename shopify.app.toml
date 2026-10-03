@@ -1,0 +1,18 @@
+name = "TryOn App"
+client_id = "f5db04b347a5a8a654d7a883ed6d0899"
+application_url = "https://tryon-app-production-867f.up.railway.app"
+embedded = false
+
+[access_scopes]
+scopes = "write_themes,read_themes,write_script_tags,read_script_tags"
+
+[auth]
+redirect_urls = [
+  "https://tryon-app-production-867f.up.railway.app/api/shopify/callback"
+]
+
+[webhooks]
+api_version = "2024-01"
+
+[pos]
+embedded = false
