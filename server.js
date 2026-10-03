@@ -5,6 +5,7 @@ const rateLimit = require('express-rate-limit');
 const path      = require('path');
 
 const app = express();
+app.set('trust proxy', 1);
 
 app.use(cors({ origin: '*' }));
 app.use('/api/ls/webhook', express.raw({ type: 'application/json' }));
