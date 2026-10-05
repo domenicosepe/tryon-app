@@ -5,27 +5,28 @@ const db      = require('../db');
 
 const SECRET = process.env.SHOPIFY_PAYMENTS_SECRET;
 
-const PLAN_LIMITS = { basic: 80, pro: 250, premium: 840 };
+const PLAN_MAP = {
+  'basic':    { plan: 'basic',   limit: 80  },
+  'pro':      { plan: 'pro',     limit: 250 },
+  'business': { plan: 'premium', limit: 840 },
+};
 
-// Rileva piano dal titolo prodotto
-function detectPlan(title) {
-  const t = (title || '').toLowerCase();
-  if (t.includes('premium')) return 'premium';
-  if (t.includes('pro'))     return 'pro';
-  if (t.includes('basic'))   return 'basic';
+function detectPlan(variantTitle, productTitle) {
+  const t = (variantTitle || productTitle || '').toLowerCase().trim();
+  for (const [key, val] of Object.entries(PLAN_MAP)) {
+    if (t.includes(key)) return val;
+  }
   return null;
 }
 
-// Verifica firma Shopify
 function verifyHmac(req) {
-  if (!SECRET) return true; // skip in dev
-  const hmac    = req.headers['x-shopify-hmac-sha256'];
-  const digest  = crypto.createHmac('sha256', SECRET).update(req.body).digest('base64');
+  if (!SECRET) return true;
+  const hmac   = req.headers['x-shopify-hmac-sha256'];
+  const digest = crypto.createHmac('sha256', SECRET).update(req.body).digest('base64');
   return hmac === digest;
 }
 
-// ── Pagamento ordine completato ──────────────────────────
-// POST /api/shopify-payments/paid
+// ── Pagamento completato → attiva subito ─────────────────
 router.post('/paid', express.raw({ type: 'application/json' }), async (req, res) => {
   if (!verifyHmac(req)) return res.status(401).json({ error: 'Firma non valida' });
 
@@ -33,47 +34,46 @@ router.post('/paid', express.raw({ type: 'application/json' }), async (req, res)
   try { order = JSON.parse(req.body.toString()); }
   catch { return res.status(400).json({ error: 'Payload non valido' }); }
 
-  console.log(`[ShopifyPayments] Ordine pagato: ${order.name}`);
+  console.log(`[ShopifyPayments] Ordine: ${order.name}`);
 
   try {
-    const email      = order.email || order.contact_email;
-    const lineItems  = order.line_items || [];
-    const note       = order.note || '';
+    const email     = order.email || order.contact_email;
+    const lineItems = order.line_items || [];
+    const item      = lineItems[0];
 
-    // Cerca dominio nelle note o negli attributi ordine
-    let shop_domain = '';
-    const attrs = order.note_attributes || [];
-    const domainAttr = attrs.find(a => a.name === 'shop_domain' || a.name === 'dominio');
-    if (domainAttr) shop_domain = domainAttr.value;
+    // Legge nome variante
+    const variantTitle  = item?.variant_title || item?.title || '';
+    const productTitle  = item?.name || '';
+    const planData      = detectPlan(variantTitle, productTitle);
 
-    // Rileva piano dal primo prodotto
-    const item = lineItems[0];
-    const plan = detectPlan(item?.title);
-
-    if (!plan) {
-      console.log('[ShopifyPayments] Piano non rilevato:', item?.title);
+    if (!planData) {
+      console.log('[ShopifyPayments] Piano non rilevato:', variantTitle, productTitle);
       return res.json({ received: true });
     }
 
-    if (!shop_domain) {
-      // Salva come pending senza dominio — verrà associato dopo
-      await db.query(`
-        INSERT INTO shops (shop_domain, email, plan, status, fashn_calls_limit)
-        VALUES ($1, $2, $3, 'pending', $4)
-        ON CONFLICT (email) DO UPDATE SET
-          plan = $3, status = 'pending', fashn_calls_limit = $4
-      `, [`pending_${order.id}`, email, plan, PLAN_LIMITS[plan]]);
-    } else {
-      await db.query(`
-        INSERT INTO shops (shop_domain, email, plan, status, fashn_calls_limit)
-        VALUES ($1, $2, $3, 'pending', $4)
-        ON CONFLICT (shop_domain) DO UPDATE SET
-          email = $2, plan = $3, status = 'pending',
-          fashn_calls_limit = $4, fashn_calls_used = 0
-      `, [shop_domain, email, plan, PLAN_LIMITS[plan]]);
-    }
+    // Cerca dominio negli attributi ordine
+    const attrs      = order.note_attributes || [];
+    const domainAttr = attrs.find(a => ['shop_domain','dominio','domain'].includes(a.name));
+    const shopDomain = domainAttr?.value || `pending_${order.id}`;
 
-    console.log(`[ShopifyPayments] Registrato: ${email} → ${plan}`);
+    const renews = new Date();
+    renews.setMonth(renews.getMonth() + 1);
+    const renewsAt = renews.toISOString().split('T')[0];
+
+    await db.query(`
+      INSERT INTO shops (shop_domain, email, plan, status, fashn_calls_limit, fashn_calls_used, next_payment_date)
+      VALUES ($1, $2, $3, 'active', $4, 0, $5)
+      ON CONFLICT (shop_domain) DO UPDATE SET
+        email             = $2,
+        plan              = $3,
+        status            = 'active',
+        fashn_calls_limit = $4,
+        fashn_calls_used  = 0,
+        next_payment_date = $5,
+        approved_at       = NOW()
+    `, [shopDomain, email, planData.plan, planData.limit, renewsAt]);
+
+    console.log(`[ShopifyPayments] ✅ Attivato: ${email} → ${planData.plan} (${shopDomain})`);
     res.json({ received: true });
 
   } catch (err) {
@@ -82,8 +82,7 @@ router.post('/paid', express.raw({ type: 'application/json' }), async (req, res)
   }
 });
 
-// ── Rinnovo abbonamento ──────────────────────────────────
-// POST /api/shopify-payments/renew
+// ── Rinnovo mensile → resetta crediti ───────────────────
 router.post('/renew', express.raw({ type: 'application/json' }), async (req, res) => {
   if (!verifyHmac(req)) return res.status(401).json({ error: 'Firma non valida' });
 
@@ -95,27 +94,31 @@ router.post('/renew', express.raw({ type: 'application/json' }), async (req, res
   if (!email) return res.json({ received: true });
 
   try {
+    const renews = new Date();
+    renews.setMonth(renews.getMonth() + 1);
+    const renewsAt = renews.toISOString().split('T')[0];
+
     await db.query(`
-      UPDATE shops SET fashn_calls_used = 0, status = 'active'
-      WHERE email = $1
-    `, [email]);
-    console.log(`[ShopifyPayments] Rinnovo: ${email}`);
+      UPDATE shops SET
+        fashn_calls_used  = 0,
+        status            = 'active',
+        next_payment_date = $1
+      WHERE email = $2
+    `, [renewsAt, email]);
+
+    console.log(`[ShopifyPayments] 🔄 Rinnovo: ${email}`);
     res.json({ received: true });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
-// ── Associa dominio a email ──────────────────────────────
-// POST /api/shopify-payments/associate
-// Body: { email, shop_domain }
+// ── Associa dominio Shopify a email ─────────────────────
 router.post('/associate', async (req, res) => {
   const { email, shop_domain } = req.body;
   if (!email || !shop_domain) return res.status(400).json({ error: 'Parametri mancanti' });
   try {
-    await db.query(`
-      UPDATE shops SET shop_domain = $1 WHERE email = $2
-    `, [shop_domain, email]);
+    await db.query(`UPDATE shops SET shop_domain = $1 WHERE email = $2`, [shop_domain, email]);
     res.json({ success: true });
   } catch (err) {
     res.status(500).json({ error: err.message });
