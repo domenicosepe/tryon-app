@@ -8,42 +8,32 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --ink:#0a0a0a;
-  --paper:#fafaf8;
-  --gold:#b8963e;
-  --gold-lt:#e8d5a3;
-  --muted:#6b6b6b;
-  --border:#e2e2de;
-  --surface:#f4f4f1;
+  --ink:#0a0a0a;--paper:#fafaf8;--gold:#b8963e;--gold-lt:#e8d5a3;
+  --muted:#6b6b6b;--border:#e2e2de;--surface:#f4f4f1;
 }
 html{scroll-behavior:smooth}
 body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);font-weight:300;line-height:1.6;overflow-x:hidden}
-
-/* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 48px;display:flex;align-items:center;justify-content:space-between;background:rgba(250,250,248,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
-.nav-logo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;letter-spacing:.02em;color:var(--ink)}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--ink)}
 .nav-logo span{color:var(--gold)}
 .nav-links{display:flex;gap:32px;align-items:center}
 .nav-links a{font-size:13px;color:var(--muted);text-decoration:none;letter-spacing:.04em;transition:color .2s}
 .nav-links a:hover{color:var(--ink)}
 .nav-cta{background:var(--ink);color:#fff;padding:9px 22px;border-radius:2px;font-size:13px;text-decoration:none;letter-spacing:.04em;transition:background .2s}
 .nav-cta:hover{background:#333}
-
-/* HERO */
-.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;padding:0;padding-top:80px}
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;padding-top:80px}
 .hero-left{display:flex;flex-direction:column;justify-content:center;padding:80px 64px 80px 80px;border-right:1px solid var(--border)}
 .hero-eyebrow{font-size:11px;letter-spacing:.18em;color:var(--gold);margin-bottom:28px;text-transform:uppercase}
-.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(52px,5vw,80px);font-weight:300;line-height:1.05;margin-bottom:28px;color:var(--ink)}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(52px,5vw,80px);font-weight:300;line-height:1.05;margin-bottom:28px}
 .hero-title em{font-style:italic;color:var(--gold)}
 .hero-sub{font-size:15px;color:var(--muted);line-height:1.7;max-width:420px;margin-bottom:48px}
 .hero-actions{display:flex;gap:16px;align-items:center}
-.btn-primary{background:var(--ink);color:#fff;padding:14px 32px;border-radius:2px;font-size:13px;text-decoration:none;letter-spacing:.06em;transition:background .2s}
+.btn-primary{background:var(--ink);color:#fff;padding:14px 32px;border-radius:2px;font-size:13px;text-decoration:none;letter-spacing:.06em;transition:background .2s;cursor:pointer;border:none;font-family:inherit}
 .btn-primary:hover{background:#333}
-.btn-ghost{font-size:13px;color:var(--muted);text-decoration:none;letter-spacing:.04em;border-bottom:1px solid var(--border);padding-bottom:2px;transition:color .2s,border-color .2s}
-.btn-ghost:hover{color:var(--ink);border-color:var(--ink)}
+.btn-ghost{font-size:13px;color:var(--muted);text-decoration:none;letter-spacing:.04em;border-bottom:1px solid var(--border);padding-bottom:2px}
 .hero-right{display:flex;align-items:center;justify-content:center;background:var(--surface);padding:60px;position:relative;overflow:hidden}
 .hero-mockup{width:100%;max-width:400px;background:#fff;border:1px solid var(--border);border-radius:4px;padding:28px;box-shadow:0 40px 80px rgba(0,0,0,.08)}
-.mockup-header{font-family:'Cormorant Garamond',serif;font-size:18px;margin-bottom:20px;color:var(--ink)}
+.mockup-header{font-family:'Cormorant Garamond',serif;font-size:18px;margin-bottom:20px}
 .mockup-steps{display:flex;flex-direction:column;gap:14px;margin-bottom:24px}
 .mockup-step{display:flex;align-items:center;gap:12px;font-size:13px;color:var(--muted)}
 .step-dot{width:28px;height:28px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--gold);flex-shrink:0;font-family:'Cormorant Garamond',serif}
@@ -53,10 +43,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 48px;display:fl
 .result-text{font-size:12px;color:var(--muted);line-height:1.6}
 .result-text strong{display:block;font-size:14px;color:var(--ink);font-weight:400;margin-bottom:4px}
 .hero-stat{position:absolute;bottom:40px;right:40px;text-align:right}
-.hero-stat .num{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:var(--ink);line-height:1}
+.hero-stat .num{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;line-height:1}
 .hero-stat .lbl{font-size:11px;color:var(--muted);letter-spacing:.08em}
-
-/* COME FUNZIONA */
 .section{padding:100px 80px}
 .section-label{font-size:11px;letter-spacing:.18em;color:var(--gold);margin-bottom:20px}
 .section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,3vw,52px);font-weight:300;line-height:1.15;margin-bottom:20px}
@@ -64,10 +52,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 48px;display:fl
 .step-card{padding:40px 36px;border-right:1px solid var(--border)}
 .step-card:last-child{border-right:none}
 .step-num{font-family:'Cormorant Garamond',serif;font-size:64px;font-weight:300;color:var(--gold-lt);line-height:1;margin-bottom:20px}
-.step-title{font-size:16px;font-weight:400;margin-bottom:10px;color:var(--ink)}
+.step-title{font-size:16px;font-weight:400;margin-bottom:10px}
 .step-desc{font-size:13px;color:var(--muted);line-height:1.7}
-
-/* PIANI */
 .plans-section{padding:100px 80px;background:var(--ink)}
 .plans-section .section-label{color:var(--gold)}
 .plans-section .section-title{color:#fff}
@@ -82,8 +68,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 48px;display:fl
 .plan-price span{font-size:14px;color:rgba(255,255,255,.4)}
 .plan-gen{font-size:13px;color:rgba(255,255,255,.5);margin-bottom:6px}
 .plan-cpg{display:inline-block;font-size:12px;padding:4px 10px;border-radius:2px;margin-bottom:24px}
-.plan-cpg.exp{background:rgba(220,80,80,.15);color:#e88;}
-.plan-cpg.good{background:rgba(80,180,100,.15);color:#8e8;}
+.plan-cpg.exp{background:rgba(220,80,80,.15);color:#e88}
+.plan-cpg.good{background:rgba(80,180,100,.15);color:#8e8}
 .plan-cpg.best{background:rgba(184,150,62,.15);color:var(--gold-lt)}
 .plan-feats{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:32px}
 .plan-feats li{font-size:13px;color:rgba(255,255,255,.6);display:flex;gap:10px;align-items:flex-start}
@@ -95,8 +81,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 48px;display:fl
 .plan-btn.outline:hover{border-color:#fff;color:#fff}
 .plan-btn.solid{background:var(--gold);color:#fff}
 .plan-btn.solid:hover{background:#a07835}
-
-/* FORM REGISTRAZIONE */
+.plan-btn:disabled{opacity:.5;cursor:not-allowed}
 .register-section{padding:100px 80px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
 .register-left .section-title{margin-bottom:16px}
 .register-left p{font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:32px}
@@ -104,100 +89,58 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 48px;display:fl
 .trust-item{display:flex;gap:12px;align-items:flex-start;font-size:13px;color:var(--muted)}
 .trust-icon{color:var(--gold);flex-shrink:0;margin-top:2px}
 .register-form{background:#fff;border:1px solid var(--border);padding:40px}
-.form-title{font-family:'Cormorant Garamond',serif;font-size:24px;margin-bottom:28px;color:var(--ink)}
+.form-title{font-family:'Cormorant Garamond',serif;font-size:24px;margin-bottom:28px}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .field{margin-bottom:18px}
 .field label{display:block;font-size:12px;letter-spacing:.06em;color:var(--muted);margin-bottom:6px}
-.field input,.field select{width:100%;padding:11px 14px;border:1px solid var(--border);background:var(--paper);font-size:14px;font-family:inherit;color:var(--ink);outline:none;border-radius:2px;transition:border .15s}
-.field input:focus,.field select:focus{border-color:var(--ink)}
+.field input{width:100%;padding:11px 14px;border:1px solid var(--border);background:var(--paper);font-size:14px;font-family:inherit;color:var(--ink);outline:none;border-radius:2px;transition:border .15s}
+.field input:focus{border-color:var(--ink)}
 .plan-selector{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:18px}
 .plan-opt{padding:10px;border:1px solid var(--border);text-align:center;cursor:pointer;transition:all .15s;border-radius:2px}
 .plan-opt:hover{border-color:var(--ink)}
 .plan-opt.selected{border-color:var(--gold);background:rgba(184,150,62,.06)}
-.plan-opt .pname{font-size:12px;font-weight:500;color:var(--ink)}
+.plan-opt .pname{font-size:12px;font-weight:500}
 .plan-opt .pprice{font-size:11px;color:var(--muted)}
 .submit-btn{width:100%;padding:14px;background:var(--ink);color:#fff;border:none;font-family:inherit;font-size:14px;letter-spacing:.06em;cursor:pointer;border-radius:2px;transition:background .2s}
-.submit-btn:hover{background:#333}
+.submit-btn:hover:not(:disabled){background:#333}
+.submit-btn:disabled{opacity:.5;cursor:not-allowed}
 .form-note{font-size:11px;color:var(--muted);margin-top:12px;line-height:1.6}
-
-/* DASHBOARD PREVIEW */
-.dashboard-section{padding:100px 80px;background:var(--surface);border-top:1px solid var(--border)}
-.dash-preview{margin-top:60px;background:#fff;border:1px solid var(--border);border-radius:4px;overflow:hidden}
-.dash-topbar{background:var(--ink);padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
-.dash-logo{font-family:'Cormorant Garamond',serif;font-size:18px;color:#fff}
-.dash-logo span{color:var(--gold)}
-.dash-store{font-size:12px;color:rgba(255,255,255,.5)}
-.dash-body{display:grid;grid-template-columns:220px 1fr;min-height:400px}
-.dash-sidebar{border-right:1px solid var(--border);padding:24px 0}
-.dash-nav-item{padding:10px 24px;font-size:13px;color:var(--muted);cursor:pointer;display:flex;align-items:center;gap:10px}
-.dash-nav-item.active{color:var(--ink);background:var(--surface);border-right:2px solid var(--gold)}
-.dash-content{padding:32px}
-.dash-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
-.dash-stat{border:1px solid var(--border);padding:20px;border-radius:2px}
-.dash-stat .val{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--ink)}
-.dash-stat .lbl{font-size:11px;color:var(--muted);margin-top:2px}
-.dash-stat .led{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px}
-.led-g{background:#27ae60}
-.led-y{background:#f39c12}
-.dash-bar-wrap{border:1px solid var(--border);padding:20px;border-radius:2px}
-.dash-bar-label{font-size:12px;color:var(--muted);margin-bottom:10px;display:flex;justify-content:space-between}
-.dash-bar{background:var(--surface);border-radius:99px;height:8px;overflow:hidden}
-.dash-bar-fill{height:100%;background:linear-gradient(90deg,var(--gold),#e8d5a3);border-radius:99px;width:62%}
-.dash-plan-badge{display:inline-block;background:rgba(184,150,62,.1);color:var(--gold);font-size:11px;padding:3px 10px;border-radius:99px;margin-bottom:16px}
-.dash-actions{display:flex;gap:8px;margin-top:16px}
-.dash-btn{padding:8px 16px;font-size:12px;border-radius:2px;cursor:pointer;font-family:inherit;letter-spacing:.04em}
-.dash-btn.primary{background:var(--ink);color:#fff;border:none}
-.dash-btn.ghost{background:transparent;color:var(--muted);border:1px solid var(--border)}
-
-/* FOOTER */
 footer{background:var(--ink);color:rgba(255,255,255,.4);padding:48px 80px;display:flex;align-items:center;justify-content:space-between;font-size:12px}
 .footer-logo{font-family:'Cormorant Garamond',serif;font-size:20px;color:#fff}
 .footer-logo span{color:var(--gold)}
-
-/* SUCCESS */
-.success-msg{display:none;text-align:center;padding:32px 0}
-.success-msg .icon{font-size:48px;margin-bottom:16px}
-.success-msg h3{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--ink);margin-bottom:8px}
-.success-msg p{font-size:14px;color:var(--muted)}
-
 @media(max-width:900px){
   .hero{grid-template-columns:1fr}
   .hero-right{display:none}
-  .hero-left{padding:60px 32px}
+  .hero-left{padding:60px 24px}
   nav{padding:16px 24px}
-  .section,.plans-section,.register-section,.dashboard-section{padding:60px 24px}
+  .nav-links a:not(.nav-cta){display:none}
+  .section,.plans-section,.register-section{padding:60px 24px}
   .steps-grid,.plans-grid{grid-template-columns:1fr}
   .step-card,.plan-card{border-right:none;border-bottom:1px solid rgba(255,255,255,.1)}
   .register-section{grid-template-columns:1fr}
   .form-row{grid-template-columns:1fr}
-  .dash-body{grid-template-columns:1fr}
-  .dash-sidebar{display:none}
-  .dash-grid{grid-template-columns:1fr 1fr}
   footer{flex-direction:column;gap:16px;text-align:center}
 }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <div class="nav-logo">TryStyle<span>AI</span></div>
   <div class="nav-links">
     <a href="#funziona">Come funziona</a>
     <a href="#piani">Piani</a>
-    <a href="#dashboard">Dashboard</a>
-    <a href="#registrati" class="nav-cta">Inizia gratis</a>
+    <a href="#registrati" class="nav-cta">Inizia ora</a>
   </div>
 </nav>
 
-<!-- HERO -->
 <section class="hero">
   <div class="hero-left">
     <div class="hero-eyebrow">Virtual Try-On per Shopify</div>
     <h1 class="hero-title">I tuoi clienti<br>vedono come<br><em>stanno</em> i capi.</h1>
     <p class="hero-sub">TryStyleAI porta il camerino virtuale nel tuo negozio Shopify. Il cliente carica una foto, l'AI mostra il capo indosso in secondi.</p>
     <div class="hero-actions">
-      <a href="#registrati" class="btn-primary">Attiva il tuo store</a>
+      <button class="btn-primary" onclick="document.getElementById('registrati').scrollIntoView({behavior:'smooth'})">Attiva il tuo store</button>
       <a href="#funziona" class="btn-ghost">Scopri come funziona</a>
     </div>
   </div>
@@ -205,35 +148,19 @@ footer{background:var(--ink);color:rgba(255,255,255,.4);padding:48px 80px;displa
     <div class="hero-mockup">
       <div class="mockup-header">Provalo indossato</div>
       <div class="mockup-steps">
-        <div class="mockup-step">
-          <div class="step-dot active">1</div>
-          <span>Carica la tua foto</span>
-        </div>
-        <div class="mockup-step">
-          <div class="step-dot active">2</div>
-          <span>L'AI elabora il look</span>
-        </div>
-        <div class="mockup-step">
-          <div class="step-dot">3</div>
-          <span>Vedi il risultato</span>
-        </div>
+        <div class="mockup-step"><div class="step-dot active">1</div><span>Carica la tua foto</span></div>
+        <div class="mockup-step"><div class="step-dot active">2</div><span>L'AI elabora il look</span></div>
+        <div class="mockup-step"><div class="step-dot">3</div><span>Vedi il risultato</span></div>
       </div>
       <div class="mockup-result">
         <div class="result-img">🧥</div>
-        <div class="result-text">
-          <strong>Risultato pronto</strong>
-          Elaborazione completata in 18 secondi. Il capo si adatta perfettamente alla tua figura.
-        </div>
+        <div class="result-text"><strong>Risultato pronto</strong>Elaborazione completata in 18 secondi.</div>
       </div>
     </div>
-    <div class="hero-stat">
-      <div class="num">+34%</div>
-      <div class="lbl">conversioni medie</div>
-    </div>
+    <div class="hero-stat"><div class="num">+34%</div><div class="lbl">conversioni medie</div></div>
   </div>
 </section>
 
-<!-- COME FUNZIONA -->
 <section class="section" id="funziona">
   <div class="section-label">Il processo</div>
   <h2 class="section-title">Tre passi. Zero complicazioni.</h2>
@@ -241,28 +168,26 @@ footer{background:var(--ink);color:rgba(255,255,255,.4);padding:48px 80px;displa
     <div class="step-card">
       <div class="step-num">1</div>
       <div class="step-title">Scegli il piano</div>
-      <div class="step-desc">Seleziona il piano più adatto al volume del tuo store. Puoi cambiarlo in qualsiasi momento dalla tua dashboard.</div>
+      <div class="step-desc">Seleziona il piano più adatto. Inserisci i tuoi dati e paga con carta — abbonamento mensile automatico.</div>
     </div>
     <div class="step-card">
       <div class="step-num">2</div>
       <div class="step-title">Installiamo noi</div>
-      <div class="step-desc">Dopo la registrazione, il nostro team installa TryStyleAI sul tuo tema Shopify in 24 ore. Non devi toccare codice.</div>
+      <div class="step-desc">Dopo il pagamento, il nostro team installa TryStyleAI sul tuo tema Shopify entro 24 ore. Zero codice da toccare.</div>
     </div>
     <div class="step-card">
       <div class="step-num">3</div>
       <div class="step-title">I clienti provano</div>
-      <div class="step-desc">Il bottone "Provalo indossato" appare su ogni scheda prodotto. I clienti caricano una foto e vedono il capo indosso.</div>
+      <div class="step-desc">Il bottone "Provalo indossato" appare su ogni scheda prodotto. Caricano una foto e vedono il capo indosso.</div>
     </div>
   </div>
 </section>
 
-<!-- PIANI -->
 <section class="plans-section" id="piani">
   <div class="section-label">Prezzi</div>
-  <h2 class="section-title" style="color:#fff">Paga solo quello che usi.</h2>
+  <h2 class="section-title">Paga solo quello che usi.</h2>
   <div class="section-sub">Più generazioni incluse, meno costi per ogni prova.</div>
   <div class="plans-grid">
-
     <div class="plan-card">
       <div class="plan-name">Basic</div>
       <div class="plan-price">€30<span>/mese</span></div>
@@ -273,13 +198,11 @@ footer{background:var(--ink);color:rgba(255,255,255,.4);padding:48px 80px;displa
         <li>80 prove al mese</li>
         <li>Supporto email</li>
         <li class="off">Outfit Suggeriti</li>
-        <li class="off">Dashboard avanzata</li>
       </ul>
-      <a href="#registrati" class="plan-btn outline" onclick="selectPlan('basic')">Inizia con Basic</a>
+      <button class="plan-btn outline" onclick="checkout('basic')">Inizia con Basic</button>
     </div>
-
     <div class="plan-card featured">
-      <div class="plan-badge">Consigliato</div>
+      <div class="plan-badge">CONSIGLIATO</div>
       <div class="plan-name">Pro</div>
       <div class="plan-price">€85<span>/mese</span></div>
       <div class="plan-gen">250 generazioni incluse</div>
@@ -289,11 +212,9 @@ footer{background:var(--ink);color:rgba(255,255,255,.4);padding:48px 80px;displa
         <li>250 prove al mese</li>
         <li>Outfit Suggeriti</li>
         <li>Supporto prioritario</li>
-        <li>Dashboard completa</li>
       </ul>
-      <a href="#registrati" class="plan-btn solid" onclick="selectPlan('pro')">Inizia con Pro</a>
+      <button class="plan-btn solid" onclick="checkout('pro')">Inizia con Pro</button>
     </div>
-
     <div class="plan-card">
       <div class="plan-name">Premium</div>
       <div class="plan-price">€275<span>/mese</span></div>
@@ -306,149 +227,61 @@ footer{background:var(--ink);color:rgba(255,255,255,.4);padding:48px 80px;displa
         <li>Accesso API diretto</li>
         <li>Supporto dedicato</li>
       </ul>
-      <a href="#registrati" class="plan-btn outline" onclick="selectPlan('premium')">Inizia con Premium</a>
+      <button class="plan-btn outline" onclick="checkout('premium')">Inizia con Premium</button>
     </div>
   </div>
 </section>
 
-<!-- DASHBOARD PREVIEW -->
-<section class="dashboard-section" id="dashboard">
-  <div class="section-label">Il tuo pannello</div>
-  <h2 class="section-title">Tutto sotto controllo,<br>in tempo reale.</h2>
-  <div class="dash-preview">
-    <div class="dash-topbar">
-      <div class="dash-logo">TryStyle<span>AI</span></div>
-      <div class="dash-store">live-store-milano.myshopify.com</div>
-    </div>
-    <div class="dash-body">
-      <div class="dash-sidebar">
-        <div class="dash-nav-item active">
-          <span>📊</span> Panoramica
-        </div>
-        <div class="dash-nav-item">
-          <span>🧥</span> Generazioni
-        </div>
-        <div class="dash-nav-item">
-          <span>💳</span> Abbonamento
-        </div>
-        <div class="dash-nav-item">
-          <span>⚙️</span> Impostazioni
-        </div>
-      </div>
-      <div class="dash-content">
-        <div class="dash-plan-badge">Piano Pro · €85/mese</div>
-        <div class="dash-grid">
-          <div class="dash-stat">
-            <div class="val">156</div>
-            <div class="lbl">Generazioni usate</div>
-          </div>
-          <div class="dash-stat">
-            <div class="val">94</div>
-            <div class="lbl">Rimanenti questo mese</div>
-          </div>
-          <div class="dash-stat">
-            <div class="val"><span class="led led-g"></span>Attivo</div>
-            <div class="lbl">Stato abbonamento</div>
-          </div>
-        </div>
-        <div class="dash-bar-wrap">
-          <div class="dash-bar-label">
-            <span>Utilizzo mensile</span>
-            <span>156 / 250</span>
-          </div>
-          <div class="dash-bar"><div class="dash-bar-fill"></div></div>
-        </div>
-        <div class="dash-actions">
-          <button class="dash-btn primary">Passa a Premium</button>
-          <button class="dash-btn ghost">Gestisci abbonamento</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- REGISTRAZIONE -->
 <section class="section" id="registrati" style="padding-top:80px;padding-bottom:80px">
   <div class="register-section" style="padding:0">
     <div class="register-left">
       <div class="section-label">Inizia adesso</div>
       <h2 class="section-title">Il camerino virtuale<br>nel tuo store.</h2>
-      <p>Compila il form, scegli il piano e inserisci i dati del tuo negozio. Il nostro team installa TryStyleAI entro 24 ore — senza che tu tocchi una riga di codice.</p>
+      <p>Compila il form, scegli il piano e paga con carta. Il pagamento è sicuro e gestito da Paddle. Il nostro team installa TryStyleAI entro 24 ore.</p>
       <div class="trust-items">
-        <div class="trust-item">
-          <span class="trust-icon">✦</span>
-          <span>Installazione manuale inclusa — zero tecnicismi per te</span>
-        </div>
-        <div class="trust-item">
-          <span class="trust-icon">✦</span>
-          <span>Pagamento mensile sicuro con carta — cancella quando vuoi</span>
-        </div>
-        <div class="trust-item">
-          <span class="trust-icon">✦</span>
-          <span>Dashboard per monitorare ogni generazione in tempo reale</span>
-        </div>
-        <div class="trust-item">
-          <span class="trust-icon">✦</span>
-          <span>Supporto diretto via email o WhatsApp</span>
-        </div>
+        <div class="trust-item"><span class="trust-icon">✦</span><span>Pagamento sicuro con carta — gestito da Paddle</span></div>
+        <div class="trust-item"><span class="trust-icon">✦</span><span>Addebito mensile automatico — cancella quando vuoi</span></div>
+        <div class="trust-item"><span class="trust-icon">✦</span><span>Installazione inclusa — zero tecnicismi per te</span></div>
+        <div class="trust-item"><span class="trust-icon">✦</span><span>Dashboard per monitorare ogni generazione</span></div>
       </div>
     </div>
 
-    <div>
-      <div class="register-form" id="reg-form">
-        <div class="form-title">Attiva il tuo store</div>
-
+    <div class="register-form">
+      <div class="form-title">Attiva il tuo store</div>
+      <div class="form-row">
         <div class="field">
           <label>Nome e cognome</label>
           <input type="text" id="f-name" placeholder="Mario Rossi" />
         </div>
-        <div class="form-row">
-          <div class="field">
-            <label>Email</label>
-            <input type="email" id="f-email" placeholder="mario@negozio.com" />
-          </div>
-          <div class="field">
-            <label>Telefono / WhatsApp</label>
-            <input type="tel" id="f-phone" placeholder="+39 333 000 0000" />
-          </div>
-        </div>
         <div class="field">
-          <label>Dominio Shopify</label>
-          <input type="text" id="f-domain" placeholder="mio-negozio.myshopify.com" />
+          <label>Email *</label>
+          <input type="email" id="f-email" placeholder="mario@negozio.com" />
         </div>
-
-        <div class="field">
-          <label style="margin-bottom:10px;display:block">Scegli il piano</label>
-          <div class="plan-selector">
-            <div class="plan-opt" id="opt-basic" onclick="selectPlan('basic')">
-              <div class="pname">Basic</div>
-              <div class="pprice">€30/mese</div>
-            </div>
-            <div class="plan-opt selected" id="opt-pro" onclick="selectPlan('pro')">
-              <div class="pname">Pro ⭐</div>
-              <div class="pprice">€85/mese</div>
-            </div>
-            <div class="plan-opt" id="opt-premium" onclick="selectPlan('premium')">
-              <div class="pname">Premium</div>
-              <div class="pprice">€275/mese</div>
-            </div>
+      </div>
+      <div class="field">
+        <label>Dominio Shopify *</label>
+        <input type="text" id="f-domain" placeholder="mio-negozio.myshopify.com" />
+      </div>
+      <div class="field">
+        <label style="margin-bottom:10px;display:block">Scegli il piano *</label>
+        <div class="plan-selector">
+          <div class="plan-opt" id="opt-basic" onclick="selectPlan('basic')">
+            <div class="pname">Basic</div><div class="pprice">€30/mese</div>
+          </div>
+          <div class="plan-opt selected" id="opt-pro" onclick="selectPlan('pro')">
+            <div class="pname">Pro ⭐</div><div class="pprice">€85/mese</div>
+          </div>
+          <div class="plan-opt" id="opt-premium" onclick="selectPlan('premium')">
+            <div class="pname">Premium</div><div class="pprice">€275/mese</div>
           </div>
         </div>
-
-        <button class="submit-btn" onclick="submitForm()">Invia richiesta →</button>
-        <div class="form-note">Dopo l'invio ti contatteremo entro poche ore con il link di pagamento e i prossimi passi. Nessun addebito immediato.</div>
       </div>
-
-      <div class="success-msg" id="success-msg">
-        <div class="icon">✦</div>
-        <h3>Richiesta inviata con successo</h3>
-        <p>Ti contatteremo entro poche ore all'email indicata con il link di pagamento e le istruzioni per l'attivazione.</p>
-      </div>
+      <button class="submit-btn" id="submit-btn" onclick="submitForm()">Procedi al pagamento →</button>
+      <div class="form-note">Verrai reindirizzato al checkout sicuro Paddle. Nessun addebito prima della conferma.</div>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <div class="footer-logo">TryStyle<span>AI</span></div>
   <div>Virtual Try-On per Shopify · © 2026</div>
@@ -463,49 +296,56 @@ function selectPlan(plan) {
   selectedPlan = plan;
   document.querySelectorAll('.plan-opt').forEach(el => el.classList.remove('selected'));
   document.getElementById(`opt-${plan}`)?.classList.add('selected');
-  // Scrolla al form
+}
+
+// Checkout diretto dal piano
+async function checkout(plan) {
+  selectedPlan = plan;
   document.getElementById('registrati').scrollIntoView({ behavior: 'smooth' });
+  selectPlan(plan);
 }
 
 async function submitForm() {
   const name   = document.getElementById('f-name').value.trim();
   const email  = document.getElementById('f-email').value.trim();
-  const phone  = document.getElementById('f-phone').value.trim();
   const domain = document.getElementById('f-domain').value.trim();
 
-  if (!name || !email || !domain) {
-    alert('Compila tutti i campi obbligatori.');
-    return;
-  }
+  if (!email || !domain) { alert('Email e dominio Shopify sono obbligatori.'); return; }
 
-  const btn = document.querySelector('.submit-btn');
-  btn.textContent = 'Invio in corso…';
+  const btn = document.getElementById('submit-btn');
   btn.disabled = true;
+  btn.textContent = 'Preparazione checkout…';
 
   try {
-    const res = await fetch(`${API}/api/shop/register`, {
+    // 1. Registra negozio nel backend
+    await fetch(`${API}/api/shop/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        shop_domain: domain,
-        shop_name:   name,
-        email,
-        plan:        selectedPlan,
-        phone,
-      }),
+      body: JSON.stringify({ shop_domain: domain, shop_name: name, email, plan: selectedPlan }),
     });
 
-    if (!res.ok) throw new Error('Errore server');
+    // 2. Crea checkout Paddle
+    const res  = await fetch(`${API}/api/paddle/checkout`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ shop_domain: domain, plan: selectedPlan, email }),
+    });
 
-    document.getElementById('reg-form').style.display = 'none';
-    document.getElementById('success-msg').style.display = 'block';
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Errore checkout');
+    if (!data.url) throw new Error('URL checkout non ricevuto');
+
+    // 3. Redirect a Paddle
+    window.location.href = data.url;
 
   } catch (err) {
-    alert('Errore nell\'invio. Riprova o scrivici a support@trystyleai.com');
-    btn.textContent = 'Invia richiesta →';
+    alert('Errore: ' + err.message + '\n\nScrivici a support@trystyleai.com');
     btn.disabled = false;
+    btn.textContent = 'Procedi al pagamento →';
   }
 }
+
+setTimeout(() => { if (!selectedPlan) selectPlan('pro'); }, 800);
 </script>
 </body>
 </html>
